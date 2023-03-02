@@ -42,12 +42,14 @@
       <label for="funcionObjetivo">z = </label><input type="text" id="funcionObjetivo" value="" /><input type="button" value="Agregar funcion" onclick="agregarFuncion();">
       <div id="funciones"></div>
       <input type="button" value="Mostrar info" onclick="mostrarInfo();">
+      <p id="debug"></p>
     </div>
   </body>
 </html>
 <script>
 let numeroDeFunciones = 1;
   onload = (event) => {
+    agregarFuncion();
 
 };
 agregarFuncion = () => {
@@ -61,12 +63,21 @@ agregarFuncion = () => {
   numeroDeFunciones++;
 }
 mostrarInfo = () => {
+  const debug = document.getElementById("debug");
+  debug.innerHTML = "";
   let dato = [];
   for(let i = 1 ; i <= numeroDeFunciones-1;i++)
   {
-    dato[i-1]= {"ID":`${i}`,"valor":`${document.getElementById("fun_"+i).value}`,"funcionObjetivo":`${document.getElementById("funcionObjetivo").value}`};
+    //dato[i-1]= {"ID":parseInt(`${i}`) ,"valor":`${document.getElementById("fun_"+i).value}`,"funcionObjetivo":`${document.getElementById("funcionObjetivo").value}`,"objetivo":document.getElementById("select-obj").value=="1"?"Maximizar":"Minimizar"};
+    dato[i-1] = {};
+    dato[i-1].ID = i;
+    dato[i-1].valor = document.getElementById("fun_"+i).value;
+    dato[i-1].funcionObjetivo = document.getElementById("funcionObjetivo").value;
+    dato[i-1].objetivo = parseInt(document.getElementById("select-obj").value);
+
   }
-  alert(JSON.stringify(dato));
+
+  dato.forEach(element => {console.log(element);debug.innerHTML+=JSON.stringify(element);});
 }
 </script>
 <style>
@@ -81,5 +92,8 @@ mostrarInfo = () => {
   }
   .txtFuncion {
     display: inherit;
+  }
+  #debug { 
+    overflow: auto;
   }
 </style>
