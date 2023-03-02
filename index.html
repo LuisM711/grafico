@@ -39,9 +39,12 @@
         <option selected value="1">Maximizar</option>
         <option value="2">Minimizar</option>
       </select>
-      <label for="funcionObjetivo">z = </label><input type="text" id="funcionObjetivo" value="" /><input type="button" value="Agregar funcion" onclick="agregarFuncion();">
+      <label for="funcionObjetivo">z = </label><input type="text" id="funcionObjetivo" value="" />
+      <input type="button" value="Agregar funcion" onclick="agregarFuncion();">
+      <input type="button" value="Eliminar funcion" id="btn_eliminar" onclick="eliminarFuncion();">
       <div id="funciones"></div>
       <input type="button" value="Mostrar info" onclick="mostrarInfo();">
+      
       <p id="debug"></p>
     </div>
   </body>
@@ -61,14 +64,25 @@ agregarFuncion = () => {
   txtFuncion.className = "txtFuncion";
   div.appendChild(txtFuncion);
   numeroDeFunciones++;
+  document.getElementById("btn_eliminar").disabled = false;
+}
+eliminarFuncion = () => {
+  const div = document.querySelector("#funciones");
+  const txtFuncion = document.querySelector(`#fun_${numeroDeFunciones-1}`);
+  txtFuncion.remove();
+  numeroDeFunciones--;
+  if(numeroDeFunciones==1)document.getElementById("btn_eliminar").disabled = true;
 }
 mostrarInfo = () => {
+  console.clear();
   const debug = document.getElementById("debug");
   debug.innerHTML = "";
   let dato = [];
   for(let i = 1 ; i <= numeroDeFunciones-1;i++)
   {
-    //dato[i-1]= {"ID":parseInt(`${i}`) ,"valor":`${document.getElementById("fun_"+i).value}`,"funcionObjetivo":`${document.getElementById("funcionObjetivo").value}`,"objetivo":document.getElementById("select-obj").value=="1"?"Maximizar":"Minimizar"};
+    //dato[i-1]= {"ID":parseInt(`${i}`) ,"valor":`${document.getElementById("fun_"+i).value}`,
+    //"funcionObjetivo":`${document.getElementById("funcionObjetivo").value}`,"objetivo":
+    //document.getElementById("select-obj").value=="1"?"Maximizar":"Minimizar"};
     dato[i-1] = {};
     dato[i-1].ID = i;
     dato[i-1].valor = document.getElementById("fun_"+i).value;
@@ -95,5 +109,6 @@ mostrarInfo = () => {
   }
   #debug { 
     overflow: auto;
+    font-size: small;
   }
 </style>
